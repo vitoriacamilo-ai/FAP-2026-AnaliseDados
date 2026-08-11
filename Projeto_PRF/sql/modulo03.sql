@@ -449,3 +449,130 @@ select tipo_acidente as "Tipo de Acidente",
     from acidentes_prf_2025, taxa_fatalidade_global
     group by tipo_acidente, taxa_fatalidade
     order by "Lift" desc;
+
+CREATE or replace view vw_acidentes_por_tipo_lift AS
+with taxa_fatalidade_global as (
+    select sum(acidente_fatal) / count(id) as taxa_fatalidade
+    from acidentes_prf_2025
+)
+select tipo_acidente as "Tipo de Acidente", 
+    count(id) as "Total de Acidentes",
+    count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+    sum(mortos) as "Total de Mortos",
+    replace(printf('%.2f%%', 
+        ((count(mortos) filter (where mortos >= 1)) / count(id)) 
+            * 100.0), '.', ',')
+        as "Taxa de Acidentes Fatais",
+    round(((count(mortos) filter (where mortos >= 1)) / count(id)) /
+    taxa_fatalidade, 2) as "Lift"
+    from acidentes_prf_2025, taxa_fatalidade_global
+    group by tipo_acidente, taxa_fatalidade
+    order by "Lift" desc;
+
+with taxa_fatalidade_global as (
+    select sum(acidente_fatal) / count(id) as taxa_fatalidade
+    from acidentes_prf_2025
+)
+select causa_acidente as "Causa de Acidente", 
+    count(id) as "Total de Acidentes",
+    count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+    sum(mortos) as "Total de Mortos",
+    replace(printf('%.2f%%', 
+        ((count(mortos) filter (where mortos >= 1)) / count(id)) 
+            * 100.0), '.', ',')
+        as "Taxa de Acidentes Fatais",
+    round(((count(mortos) filter (where mortos >= 1)) / count(id)) /
+    taxa_fatalidade, 2) as "Lift"
+    from acidentes_prf_2025, taxa_fatalidade_global
+    group by causa_acidente, taxa_fatalidade
+    order by "Lift" desc;
+
+with taxa_fatalidade_global as (
+    select sum(acidente_fatal) / count(id) as taxa_fatalidade
+    from acidentes_prf_2025
+)
+select condicao_metereologica as "Condição Metereologica", 
+    count(id) as "Total de Acidentes",
+    count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+    sum(mortos) as "Total de Mortos",
+    replace(printf('%.2f%%', 
+        ((count(mortos) filter (where mortos >= 1)) / count(id)) 
+            * 100.0), '.', ',')
+        as "Taxa de Acidentes Fatais",
+    round(((count(mortos) filter (where mortos >= 1)) / count(id)) /
+    taxa_fatalidade, 2) as "Lift"
+    from acidentes_prf_2025, taxa_fatalidade_global
+    group by condicao_metereologica, taxa_fatalidade
+    order by "Lift" desc;
+
+with taxa_fatalidade_global as (
+    select sum(acidente_fatal) / count(id) as taxa_fatalidade
+    from acidentes_prf_2025
+)
+select condicao_metereologica as "Condição Metereologica", 
+    count(id) as "Total de Acidentes",
+    count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+    sum(mortos) as "Total de Mortos",
+    replace(printf('%.2f%%', 
+        ((count(mortos) filter (where mortos >= 1)) / count(id)) 
+            * 100.0), '.', ',')
+        as "Taxa de Acidentes Fatais",
+    round(((count(mortos) filter (where mortos >= 1)) / count(id)) /
+    taxa_fatalidade, 2) as "Lift"
+    from acidentes_prf_2025, taxa_fatalidade_global
+    group by condicao_metereologica, taxa_fatalidade
+    order by "Lift" desc;
+
+with taxa_fatalidade_global as (
+    select sum(acidente_fatal) / count(id) as taxa_fatalidade
+    from acidentes_prf_2025
+)
+select uf as "Estados", 
+    count(id) as "Total de Acidentes",
+    count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+    sum(mortos) as "Total de Mortos",
+    replace(printf('%.2f%%', 
+        ((count(mortos) filter (where mortos >= 1)) / count(id)) 
+            * 100.0), '.', ',')
+        as "Taxa de Acidentes Fatais",
+    round(((count(mortos) filter (where mortos >= 1)) / count(id)) /
+    taxa_fatalidade, 2) as "Lift"
+    from acidentes_prf_2025, taxa_fatalidade_global
+    group by uf, taxa_fatalidade
+    order by "Lift" desc;
+
+with taxa_fatalidade_global as (select sum(acidente_fatal)/count(id) as taxa_fatalidade
+from acidentes_prf_2025)
+
+select extract(year from cast(data_inversa as date)) as "Ano",
+extract(month from cast(data_inversa as date)) as "Mês",
+count(id) as "Total de Acidentes",
+count(mortos) filter (where mortos >= 1) as "Total de Acidentes Fatais",
+sum(mortos) as "Total de Mortos",
+replace(printf('%.2f%%',
+((count(mortos) filter (where mortos >= 1)) / count(id))
+* 100.0), '.', ',')
+as "Taxa de Acidentes Fatais",
+round(((count(mortos) filter (where mortos >= 1)) / count(id)) / taxa_fatalidade, 2) as "Lift"
+from acidentes_prf_2025, taxa_fatalidade_global
+group by "Ano", "Mês", taxa_fatalidade
+order by "Lift" desc;
+
+copy vw_acidentes_por_tipo_lift to '/workspaces/FAP-2026-AnaliseDados/Projeto_PRF/Resultados/bivariada_tipo_acidente.csv' 
+(HEADER,DELIMITER';');
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
