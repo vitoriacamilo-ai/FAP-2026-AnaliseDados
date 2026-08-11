@@ -566,6 +566,8 @@ copy vw_acidentes_por_tipo_lift to '/workspaces/FAP-2026-AnaliseDados/Projeto_PR
 
 
 
+
+
     
 
 
