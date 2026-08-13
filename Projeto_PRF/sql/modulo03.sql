@@ -558,8 +558,9 @@ from acidentes_prf_2025, taxa_fatalidade_global
 group by "Ano", "Mês", taxa_fatalidade
 order by "Lift" desc;
 
-copy vw_acidentes_por_tipo_lift to '/workspaces/FAP-2026-AnaliseDados/Projeto_PRF/Resultados/bivariada_tipo_acidente.csv' 
-(HEADER,DELIMITER';');
+copy vw_acidentes_por_t
+
+
 
 
 
